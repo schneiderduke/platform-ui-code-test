@@ -1,36 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DoCheck } from '@angular/core';
+import { listfixture } from './list.fixture';
+import { MedicalProvider } from './provider.model';
 
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.css']
 })
-export class ListComponent implements OnInit {
+export class ListComponent implements DoCheck {
+  public selectedProviders: MedicalProvider[] = JSON.parse(localStorage.getItem('selectedProviders')) || [];
+  public unselectedProviders: MedicalProvider[] = listfixture;
+  ngDoCheck() { localStorage.selectedProviders = JSON.stringify(this.selectedProviders) }
+  
+  select(id: string): void {
+    this.selectedProviders.push(this.unselectedProviders.find((provider: MedicalProvider) => id === provider.id));
+    this.unselectedProviders.splice(
+      this.unselectedProviders.indexOf(this.unselectedProviders.find((provider: MedicalProvider) => id === provider.id)),1);
+  }
 
-  public selectedProviders = [];
-  public unselectedProviders = [
-    {
-      id: '1',
-      name: 'John',
-      address: '123 Greenway Blvd',
-      phone: '8991234321'
-    },
-    {
-      id: '2',
-      name: 'Mary',
-      address: '443 Windwhisper Road',
-      phone: '2233211903'
-    },
-    {
-      id: '3',
-      name: 'Jason',
-      address: '9992 Pumpkin Hollow',
-      phone: '4343219384'
-    }
-  ];
-
-  constructor() {}
-
-  ngOnInit() {}
-
+  unselect(id: string): void {
+    this.unselectedProviders.push(this.selectedProviders.find((provider: MedicalProvider) => id === provider.id));
+    this.selectedProviders.splice(
+      this.selectedProviders.indexOf(this.selectedProviders.find((provider: MedicalProvider) => id === provider.id)),1);
+  }
 }

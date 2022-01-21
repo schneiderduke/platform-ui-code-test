@@ -1,4 +1,29 @@
 <div class="list-container">
   <h2>Providers</h2>
-
+    <h4>Available Providers</h4>
+    <ul class="grid-container">
+      <li 
+        *ngFor="let provider of unselectedProviders"
+        class="provider_card unselected grid-item"
+        (click)="select(provider.id)">
+        <div class="container">
+          <h4>{{ provider.name }}</h4>
+          <p>{{ provider.address }}</p>
+          <p>{{ provider.phone }}</p>
+        </div>
+        
+      </li>
+    </ul>
+    <h4>Selected Providers</h4>
+    <ul class="grid-container">
+      <li *ngFor="let provider of selectedProviders"
+        class="provider_card selected grid-item">
+        <div class="container">
+          <span class="close" (click)="unselect(provider.id)">&times;</span>
+          <h4>{{ provider.name }}</h4>
+          <p>{{ provider.address }}</p>
+          <p>{{ provider.phone }}</p>
+        </div>
+      </li>
+    </ul>
 </div>
